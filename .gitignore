@@ -1,0 +1,10 @@
+# Sécurité : Ne jamais uploader les variables d'environnement
+.env
+
+# Dépendances : Ne pas uploader le dossier node_modules (trop lourd)
+node_modules/
+
+# Logs et fichiers temporaires
+npm-debug.log*
+.DS_Store
+dist/
