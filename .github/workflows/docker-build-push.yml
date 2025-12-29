@@ -50,19 +50,25 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            # 1. Aller dans le dossier du projet
             cd devops-ci-cd-project
             
-            # 2. Récupérer la dernière version du fichier docker-compose.prod.yml (si modifié)
-            # (Note: On force le checkout pour éviter les conflits locaux)
+            # 1. Mise à jour du code (docker-compose.yml etc)
             git fetch --all
             git reset --hard origin/main
             
-            # 3. Télécharger les nouvelles images Docker depuis le Hub
+            # 2. ARRÊT TOTAL (Libère les ports et supprime les conteneurs)
+            docker compose -f docker-compose.prod.yml down
+            
+            # 3. SUPPRESSION DE L'IMAGE FRONTEND (Pour forcer le retéléchargement)
+            # (Le "|| true" évite que ça plante si l'image n'existe pas encore)
+            docker rmi herve19944/qcm-frontend:latest || true
+            docker rmi herve19944/qcm-backend:latest || true
+            
+            # 4. TÉLÉCHARGEMENT PROPRE
             docker compose -f docker-compose.prod.yml pull
             
-            # 4. Relancer les conteneurs (Update sans coupure majeure)
-            docker compose -f docker-compose.prod.yml up -d --force-recreate
+            # 5. DÉMARRAGE
+            docker compose -f docker-compose.prod.yml up -d
             
-            # 5. Nettoyage des vieilles images inutiles (pour économiser ton disque 20Go)
+            # 6. Ménage final
             docker image prune -f
