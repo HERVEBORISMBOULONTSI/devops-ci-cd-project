@@ -9,4 +9,10 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  // 👇 AJOUTE CECI POUR QUE LE /health FONCTIONNE
+  @Get('health')
+  checkHealth() {
+    return { status: 'UP', message: 'API is working!' };
+  }
 }
