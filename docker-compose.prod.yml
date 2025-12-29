@@ -1,0 +1,9 @@
+services:
+  api:
+    image: herve19944/devops-ci-cd-project-api:latest
+    container_name: devops_api_prod
+    ports:
+      - "80:3000"
+    env_file:
+      - .env.prod
+    restart: always

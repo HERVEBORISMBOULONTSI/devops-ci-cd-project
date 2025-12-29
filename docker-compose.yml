@@ -1,24 +1,39 @@
 services:
+  # --- BACKEND (NestJS) ---
   api:
-    build: .
-    container_name: devops_api
+    build: ./backend             # Il va chercher le Dockerfile dans le dossier backend
+    container_name: qcm_api
     ports:
       - "3000:3000"
-    env_file:
-      - .env
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=qcm_user
+      - DB_PASSWORD=strongpassword
+      - DB_NAME=qcm_db
+      - JWT_SECRET=supersecret
     depends_on:
       - db
 
+  # --- FRONTEND (React + Nginx) ---
+  frontend:
+    build: ./frontend            # Il va chercher le Dockerfile dans le dossier frontend
+    container_name: qcm_front
+    ports:
+      - "8080:80"                # On mappe le port 80 du conteneur sur le 8080 de ton PC
+    depends_on:
+      - api
+
+  # --- DATABASE (PostgreSQL) ---
   db:
     image: postgres:16
-    container_name: devops_db
+    container_name: qcm_db
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: devopsdb
+      POSTGRES_USER: qcm_user
+      POSTGRES_PASSWORD: strongpassword
+      POSTGRES_DB: qcm_db
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
 

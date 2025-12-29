@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: qcm-app
+spec:
+  replicas: 2 # 🔥 Scalabilité : On lance 2 instances de l'API !
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          # 👇 C'est l'image qu'on va construire via GitHub Actions
+          image: herve19944/qcm-backend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DB_HOST
+              value: "db" # Nom du service Kubernetes DB
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USER
+              value: "qcm_user"
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: DB_PASSWORD
+            - name: DB_NAME
+              value: "qcm_db"
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: JWT_SECRET
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  namespace: qcm-app
+spec:
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 80 # Service interne sur port 80
+      targetPort: 3000 # Redirige vers le conteneur sur 3000
