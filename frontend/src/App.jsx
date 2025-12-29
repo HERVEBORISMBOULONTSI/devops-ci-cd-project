@@ -9,7 +9,7 @@ function App() {
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
+        <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
         <a href="https://react.dev" target="_blank">
@@ -17,22 +17,26 @@ function App() {
         </a>
       </div>
       
-      {/* 👇 LE CHANGEMENT VISIBLE EST ICI 👇 */}
-      <h1>🚀 DevOps : Déploiement Réussi !</h1>
+      {/* Modification V3 */}
+      <h1>✨ DevOps V3 : SUCCESS ! ✨</h1>
       
-      <div className="card">
-        <p style={{ color: '#61dafbaa', fontWeight: 'bold', fontSize: '1.2em' }}>
-          ✅ Cette version a été déployée automatiquement par GitHub Actions.
-        </p>
-        
-        <button onClick={() => setCount((count) => count + 1)}>
-          Test d'interactivité : {count}
-        </button>
-        
+      <div className="card" style={{ border: '2px solid #4CAF50', padding: '20px', borderRadius: '10px' }}>
+        <h3 style={{ color: '#4CAF50' }}>
+          Modification automatique validée
+        </h3>
         <p>
-          Si tu vois ce message, c'est que le <code>--force-recreate</code> a fonctionné !
+          Si ce cadre est vert, c'est que le pipeline CI/CD fonctionne parfaitement.
+          Tu n'as plus besoin de toucher au SSH !
         </p>
+        
+        <button onClick={() => setCount((count) => count + 1)} style={{ backgroundColor: '#4CAF50', color: 'white' }}>
+          Compteur de victoires : {count}
+        </button>
       </div>
+
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
     </>
   )
 }
