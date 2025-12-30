@@ -17,20 +17,21 @@ function App() {
         </a>
       </div>
       
-      {/* TITRE V4 */}
-      <h1>💎 DevOps V4 : ULTIMATE TEST 💎</h1>
+      {/* TITRE V5 - ROUGE */}
+      <h1>🔥 DevOps V5 : MISSION ACCOMPLIE 🔥</h1>
       
-      <div className="card" style={{ border: '4px solid #2196F3', padding: '20px', borderRadius: '15px' }}>
-        <h3 style={{ color: '#2196F3' }}>
-          Si tu vois ce cadre BLEU...
+      <div className="card" style={{ border: '4px solid #F44336', padding: '20px', borderRadius: '15px' }}>
+        <h3 style={{ color: '#F44336' }}>
+          Confirmation Finale : ROUGE
         </h3>
         <p>
-          ...c'est que ton fichier docker-compose local a bien écrasé celui du serveur 
-          ET que tout fonctionne encore !
+          Si tu vois ce cadre rouge, félicitations !
+          Tu as automatisé le déploiement de A à Z.
+          Ton serveur se met à jour tout seul pendant que tu bois ton café. ☕️
         </p>
         
-        <button onClick={() => setCount((count) => count + 1)} style={{ backgroundColor: '#2196F3', color: 'white', marginTop: '10px' }}>
-           Test Final : {count}
+        <button onClick={() => setCount((count) => count + 1)} style={{ backgroundColor: '#F44336', color: 'white', marginTop: '10px' }}>
+           Victoire n° : {count}
         </button>
       </div>
 
