@@ -1,18 +1,25 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
 
-@Controller()
+@Controller('api/tcf') // Préfixe pour toutes les routes
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  // Route: GET /api/tcf
   @Get()
-  getHello(): string {
+  getHome() {
     return this.appService.getHello();
   }
 
-  // 👇 AJOUTE CECI POUR QUE LE /health FONCTIONNE
-  @Get('health')
-  checkHealth() {
-    return { status: 'UP', message: 'API is working!' };
+  // Route: GET /api/tcf/oral
+  @Get('oral')
+  async getOralTest() {
+    return await this.appService.getOralQuestions();
+  }
+
+  // Route: POST /api/tcf/check-answer
+  @Post('check-answer')
+  async checkAnswer(@Body() body: { choice_id: number }) {
+    return await this.appService.checkAnswer(body.choice_id);
   }
 }
